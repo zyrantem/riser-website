@@ -41,6 +41,39 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// Device Detection for QR Codes
+function detectDevice() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    
+    // Reset all QR codes
+    document.querySelectorAll('.device-specific-qr').forEach(qr => {
+        qr.classList.remove('active');
+    });
+    
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        // iOS device
+        const iosQr = document.querySelector('.ios-qr');
+        if (iosQr) {
+            iosQr.classList.add('active');
+        }
+    } else if (/android/i.test(userAgent)) {
+        // Android device
+        const androidQr = document.querySelector('.android-qr');
+        if (androidQr) {
+            androidQr.classList.add('active');
+        }
+    } else {
+        // Desktop or other devices - show default
+        const defaultQr = document.querySelector('.default-qr');
+        if (defaultQr) {
+            defaultQr.classList.add('active');
+        }
+    }
+}
+
+// Run device detection on page load
+window.addEventListener('load', detectDevice);
+
 // Intersection Observer for Scroll Animations
 const observerOptions = {
     threshold: 0.1,
@@ -104,16 +137,22 @@ if (heroStats) {
     heroStatsObserver.observe(heroStats);
 }
 
-// Parallax Effect for Hero Background
-window.addEventListener('scroll', () => {
+// Enhanced Parallax Effect for Hero Background
+function updateParallax() {
     const scrolled = window.pageYOffset;
     const parallaxElements = document.querySelectorAll('.floating-shape');
     
     parallaxElements.forEach((element, index) => {
-        const speed = 0.5 + (index * 0.1);
-        element.style.transform = `translateY(${scrolled * speed}px)`;
+        const speed = 0.3 + (index * 0.1);
+        const yPos = -(scrolled * speed);
+        const rotation = scrolled * 0.1;
+        element.style.transform = `translateY(${yPos}px) rotate(${rotation + (index * 120)}deg)`;
     });
-});
+}
+
+// Debounced parallax for better performance
+const debouncedParallax = debounce(updateParallax, 10);
+window.addEventListener('scroll', debouncedParallax);
 
 // Form Submission Handler
 const emailForm = document.querySelector('.email-form');
@@ -131,6 +170,7 @@ if (emailForm) {
             // Show loading state
             submitBtn.textContent = 'Joining...';
             submitBtn.disabled = true;
+            submitBtn.style.background = 'rgba(255, 255, 255, 0.8)';
             
             // Simulate API call
             setTimeout(() => {
@@ -138,27 +178,70 @@ if (emailForm) {
                 submitBtn.style.background = '#10b981';
                 emailInput.value = '';
                 
+                // Show success message
+                showNotification('🎉 Welcome to Riser! You\'re on the waitlist.', 'success');
+                
                 // Reset after 3 seconds
                 setTimeout(() => {
                     submitBtn.textContent = 'Join Waitlist';
-                    submitBtn.style.background = '';
+                    submitBtn.style.background = 'white';
                     submitBtn.disabled = false;
                 }, 3000);
             }, 1500);
         } else {
             // Show error state
-            emailInput.style.borderColor = '#ef4444';
+            emailInput.style.borderColor = '#ff4e45';
+            emailInput.style.background = 'rgba(255, 78, 69, 0.1)';
             emailInput.placeholder = 'Please enter a valid email';
+            showNotification('Please enter a valid email address', 'error');
             
             setTimeout(() => {
                 emailInput.style.borderColor = '';
+                emailInput.style.background = '';
                 emailInput.placeholder = 'Enter your email';
             }, 3000);
         }
     });
 }
 
-// Typing Effect for Hero Title
+// Notification System
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ff4e45' : '#000000'};
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        z-index: 10000;
+        font-weight: 600;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        max-width: 300px;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Remove after 4 seconds
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 4000);
+}
+
+// Typing Effect for Hero Title (disabled for now as requested)
 function typeWriter(element, text, speed = 100) {
     let i = 0;
     element.textContent = '';
@@ -173,23 +256,11 @@ function typeWriter(element, text, speed = 100) {
     type();
 }
 
-// Initialize typing effect when page loads
-window.addEventListener('load', () => {
-    const titleLines = document.querySelectorAll('.title-line');
-    if (titleLines.length > 0) {
-        setTimeout(() => {
-            typeWriter(titleLines[0], 'Your Future of Work', 80);
-        }, 500);
-        
-        setTimeout(() => {
-            typeWriter(titleLines[1], 'Starts Here', 80);
-        }, 2000);
-    }
-});
-
-// Feature Cards Tilt Effect
+// Enhanced Feature Cards Tilt Effect
 document.querySelectorAll('.feature-card').forEach(card => {
     card.addEventListener('mousemove', (e) => {
+        if (window.innerWidth <= 768) return; // Disable on mobile
+        
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -197,10 +268,10 @@ document.querySelectorAll('.feature-card').forEach(card => {
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
         
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
+        const rotateX = (y - centerY) / 15;
+        const rotateY = (centerX - x) / 15;
         
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
     });
     
     card.addEventListener('mouseleave', () => {
@@ -208,18 +279,52 @@ document.querySelectorAll('.feature-card').forEach(card => {
     });
 });
 
-// Testimonial Cards Hover Effect
+// Enhanced Step Cards Hover Effect
+document.querySelectorAll('.step').forEach(step => {
+    step.addEventListener('mouseenter', () => {
+        if (window.innerWidth <= 768) return; // Disable on mobile
+        
+        step.style.transform = 'translateY(-10px) scale(1.02)';
+        step.style.borderColor = 'rgba(255, 78, 69, 0.5)';
+    });
+    
+    step.addEventListener('mouseleave', () => {
+        step.style.transform = 'translateY(0) scale(1)';
+        step.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+    });
+});
+
+// Testimonial Cards Enhanced Hover Effect
 document.querySelectorAll('.testimonial-card').forEach(card => {
     card.addEventListener('mouseenter', () => {
         card.style.transform = 'translateY(-8px) scale(1.02)';
+        card.style.boxShadow = '0 20px 40px rgba(255, 78, 69, 0.15)';
     });
     
     card.addEventListener('mouseleave', () => {
         card.style.transform = 'translateY(0) scale(1)';
+        card.style.boxShadow = '';
     });
 });
 
-// Download Button Click Tracking
+// QR Code Interaction
+document.querySelectorAll('.qr-code').forEach(qr => {
+    qr.addEventListener('click', () => {
+        const label = qr.querySelector('.qr-label').textContent;
+        
+        if (label.includes('iOS')) {
+            showNotification('📱 Redirecting to App Store...', 'info');
+            // In real implementation: window.open('https://apps.apple.com/app/riser', '_blank');
+        } else if (label.includes('Google Play')) {
+            showNotification('📱 Redirecting to Google Play...', 'info');
+            // In real implementation: window.open('https://play.google.com/store/apps/details?id=com.riser', '_blank');
+        } else {
+            showNotification('📱 Choose your platform above to download', 'info');
+        }
+    });
+});
+
+// Download Button Enhanced Click Tracking
 document.querySelectorAll('.download-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -230,48 +335,76 @@ document.querySelectorAll('.download-btn').forEach(btn => {
             btn.style.transform = 'scale(1)';
         }, 150);
         
-        // In a real implementation, you would redirect to app store
-        console.log('Download button clicked:', btn.querySelector('img').alt);
+        const isAppStore = btn.querySelector('img').alt.includes('App Store');
+        const platform = isAppStore ? 'iOS App Store' : 'Google Play Store';
         
-        // Show coming soon message
-        const message = document.createElement('div');
-        message.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 0.5rem;
-            z-index: 10000;
-            font-weight: 600;
-        `;
-        message.textContent = 'Coming Soon! Join our waitlist for early access.';
-        document.body.appendChild(message);
-        
-        setTimeout(() => {
-            message.remove();
-        }, 3000);
+        console.log('Download button clicked:', platform);
+        showNotification(`🚀 ${platform} coming soon! Join our waitlist for early access.`, 'info');
     });
 });
 
-// Lazy Loading for Images
-const images = document.querySelectorAll('img[data-src]');
+// Smooth scroll to sections with offset for fixed navbar
+function smoothScrollToSection(targetId) {
+    const target = document.querySelector(targetId);
+    if (target) {
+        const navHeight = navbar.offsetHeight;
+        const targetPosition = target.offsetTop - navHeight - 20;
+        
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+        });
+    }
+}
+
+// Enhanced Mobile Experience
+function handleMobileOptimizations() {
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        // Reduce parallax on mobile for better performance
+        document.querySelectorAll('.floating-shape').forEach(shape => {
+            shape.style.animation = 'float 8s ease-in-out infinite';
+        });
+        
+        // Optimize touch interactions
+        document.querySelectorAll('.feature-card, .step, .testimonial-card').forEach(card => {
+            card.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.98)';
+            });
+            
+            card.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    }
+}
+
+// Run mobile optimizations on load and resize
+window.addEventListener('load', handleMobileOptimizations);
+window.addEventListener('resize', debounce(handleMobileOptimizations, 250));
+
+// Lazy Loading for Images (enhanced)
 const imageObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             const img = entry.target;
-            img.src = img.dataset.src;
-            img.classList.remove('lazy');
+            if (img.dataset.src) {
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+                img.classList.add('loaded');
+            }
             imageObserver.unobserve(img);
         }
     });
+}, { rootMargin: '50px' });
+
+// Apply lazy loading to images
+document.querySelectorAll('img[data-src]').forEach(img => {
+    imageObserver.observe(img);
 });
 
-images.forEach(img => imageObserver.observe(img));
-
-// Easter Egg: Konami Code
+// Easter Egg: Konami Code (Updated for new brand)
 let konamiCode = [];
 const konamiSequence = [
     'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
@@ -286,18 +419,20 @@ document.addEventListener('keydown', (e) => {
     }
     
     if (konamiCode.join(',') === konamiSequence.join(',')) {
-        // Easter egg activated
-        document.body.style.filter = 'hue-rotate(180deg)';
+        // Easter egg activated - Riser themed
+        document.body.style.filter = 'hue-rotate(180deg) saturate(1.5)';
+        showNotification('🚀 Riser Easter Egg Activated! You found the secret!', 'success');
+        
         setTimeout(() => {
             document.body.style.filter = '';
         }, 5000);
         
-        console.log('🚀 Easter egg activated! You found the secret!');
+        console.log('🚀 Riser Easter egg activated! Welcome to the inner circle!');
         konamiCode = [];
     }
 });
 
-// Performance optimization: Debounce scroll events
+// Performance optimization: Debounce function
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -310,24 +445,14 @@ function debounce(func, wait) {
     };
 }
 
-// Apply debounce to scroll-heavy functions
-const debouncedParallax = debounce(() => {
-    const scrolled = window.pageYOffset;
-    const parallaxElements = document.querySelectorAll('.floating-shape');
-    
-    parallaxElements.forEach((element, index) => {
-        const speed = 0.5 + (index * 0.1);
-        element.style.transform = `translateY(${scrolled * speed}px)`;
-    });
-}, 10);
-
-window.addEventListener('scroll', debouncedParallax);
-
 // Preload critical images
 function preloadImages() {
     const criticalImages = [
         'assets-inspiration/Frame-182.png',
-        'assets-inspiration/RISERROCKET_WHITE-768x230.png'
+        'assets-inspiration/RISERROCKET_WHITE-768x230.png',
+        'assets-inspiration/1-e1740571502825.png',
+        'assets-inspiration/2-e1740571422777.png',
+        'assets-inspiration/3-e1740571371474.png'
     ];
     
     criticalImages.forEach(src => {
@@ -336,7 +461,51 @@ function preloadImages() {
     });
 }
 
-// Initialize preloading
-preloadImages();
+// Initialize everything
+function initializeWebsite() {
+    preloadImages();
+    detectDevice();
+    handleMobileOptimizations();
+    
+    // Add loaded class to body for CSS transitions
+    setTimeout(() => {
+        document.body.classList.add('loaded');
+    }, 100);
+}
 
-console.log('🚀 Riser website loaded successfully!'); 
+// Run initialization
+window.addEventListener('load', initializeWebsite);
+
+// Keyboard accessibility
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        // Close mobile menu if open
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+    }
+});
+
+// Focus management for better accessibility
+const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+        const focusableContent = document.querySelectorAll(focusableElements);
+        const firstFocusableElement = focusableContent[0];
+        const lastFocusableElement = focusableContent[focusableContent.length - 1];
+
+        if (e.shiftKey) {
+            if (document.activeElement === firstFocusableElement) {
+                lastFocusableElement.focus();
+                e.preventDefault();
+            }
+        } else {
+            if (document.activeElement === lastFocusableElement) {
+                firstFocusableElement.focus();
+                e.preventDefault();
+            }
+        }
+    }
+});
+
+console.log('🚀 Riser website loaded successfully with enhanced features!'); 
