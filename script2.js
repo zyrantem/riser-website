@@ -6,17 +6,17 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentIndex = 0;
     let isDeleting = false;
     let currentText = '';
-    let typeSpeed = 150;
+    let typeSpeed = 100;
 
     function typeText() {
         const currentJobType = jobTypes[currentIndex];
         
         if (isDeleting) {
             currentText = currentJobType.substring(0, currentText.length - 1);
-            typeSpeed = 75; // Faster deletion
+            typeSpeed = 50; // Faster deletion
         } else {
             currentText = currentJobType.substring(0, currentText.length + 1);
-            typeSpeed = 150; // Normal typing speed
+            typeSpeed = 100; // Faster typing speed
         }
 
         if (typingElement) {
@@ -25,13 +25,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!isDeleting && currentText === currentJobType) {
             // Finished typing, pause then start deleting
-            typeSpeed = 2000; // Pause for 2 seconds
+            typeSpeed = 1500; // Shorter pause for 1.5 seconds
             isDeleting = true;
         } else if (isDeleting && currentText === '') {
             // Finished deleting, move to next job type
             isDeleting = false;
             currentIndex = (currentIndex + 1) % jobTypes.length;
-            typeSpeed = 500; // Short pause before typing next word
+            typeSpeed = 300; // Shorter pause before typing next word
         }
 
         setTimeout(typeText, typeSpeed);
