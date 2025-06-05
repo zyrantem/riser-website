@@ -1,5 +1,47 @@
 // Smooth scrolling for navigation links
 document.addEventListener('DOMContentLoaded', function() {
+    // Typing animation for hero title
+    const typingElement = document.getElementById('typing-text');
+    const jobTypes = ['Hire', 'Freelancer', 'Content Creator', 'Marketer', 'Producer', 'Consultant'];
+    let currentIndex = 0;
+    let isDeleting = false;
+    let currentText = '';
+    let typeSpeed = 150;
+
+    function typeText() {
+        const currentJobType = jobTypes[currentIndex];
+        
+        if (isDeleting) {
+            currentText = currentJobType.substring(0, currentText.length - 1);
+            typeSpeed = 75; // Faster deletion
+        } else {
+            currentText = currentJobType.substring(0, currentText.length + 1);
+            typeSpeed = 150; // Normal typing speed
+        }
+
+        if (typingElement) {
+            typingElement.textContent = currentText;
+        }
+
+        if (!isDeleting && currentText === currentJobType) {
+            // Finished typing, pause then start deleting
+            typeSpeed = 2000; // Pause for 2 seconds
+            isDeleting = true;
+        } else if (isDeleting && currentText === '') {
+            // Finished deleting, move to next job type
+            isDeleting = false;
+            currentIndex = (currentIndex + 1) % jobTypes.length;
+            typeSpeed = 500; // Short pause before typing next word
+        }
+
+        setTimeout(typeText, typeSpeed);
+    }
+
+    // Start the typing animation
+    if (typingElement) {
+        typeText();
+    }
+
     // Handle navigation links
     const navLinks = document.querySelectorAll('a[href^="#"]');
     

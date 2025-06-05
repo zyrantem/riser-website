@@ -263,6 +263,23 @@ p {
     color: var(--primary);
 }
 
+/* Typing animation cursor */
+#typing-text::after {
+    content: '|';
+    color: var(--primary);
+    animation: blink 1s infinite;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+}
+
 .hero-subtitle {
     font-size: 1.125rem;
     color: var(--text-secondary);
