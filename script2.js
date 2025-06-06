@@ -57,9 +57,11 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Add active class to selected audience
             if (audience === 'hirers') {
+                hirerRadio.checked = true;
                 hirersContent.classList.add('active');
                 pricingSection.classList.add('show');
             } else {
+                talentRadio.checked = true;
                 talentContent.classList.add('active');
                 pricingSection.classList.remove('show');
             }
@@ -88,8 +90,23 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        // Handle hero buttons with audience data
+        const heroButtons = document.querySelectorAll('.hero-buttons a[data-audience]');
+        heroButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                const audience = this.getAttribute('data-audience');
+                switchAudience(audience);
+                
+                // Allow normal scroll behavior to continue
+                // The href="#how-it-works" will handle the scrolling
+            });
+        });
+
         // Initialize with hirers by default
         switchAudience('hirers');
+
+        // Expose function globally for external use
+        window.switchAudience = switchAudience;
     }
 
     // Initialize toggle functionality

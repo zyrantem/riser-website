@@ -342,33 +342,29 @@ p {
 }
 
 /* Toggle Section */
-.toggle-section {
-    padding: var(--space-xl) 0;
-    background-color: var(--gray-50);
-    border-bottom: 1px solid var(--gray-200);
+.section-toggle {
+    position: relative;
+    z-index: 10;
+    margin-bottom: -60px;
+    padding: 0 0 var(--space-lg) 0;
 }
 
 .audience-toggle {
-    text-align: center;
-    max-width: 500px;
+    display: flex;
+    justify-content: center;
     margin: 0 auto;
-}
-
-.toggle-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: var(--space-lg);
 }
 
 .toggle-switch {
     position: relative;
     display: flex;
-    background-color: var(--white);
-    border-radius: var(--radius-xl);
-    padding: 4px;
-    box-shadow: var(--shadow-md);
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    padding: 6px;
+    box-shadow: var(--shadow-lg);
     border: 1px solid var(--gray-200);
+    min-width: 400px;
 }
 
 .toggle-switch input[type="radio"] {
@@ -378,39 +374,35 @@ p {
 .toggle-option {
     flex: 1;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: var(--space-xs);
+    justify-content: center;
     padding: var(--space-md) var(--space-lg);
     cursor: pointer;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     transition: var(--transition-slow);
     z-index: 2;
     position: relative;
-}
-
-.toggle-icon {
-    font-size: 1.5rem;
-    transition: var(--transition);
+    font-weight: 500;
 }
 
 .toggle-text {
-    font-size: 0.875rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color: var(--text-secondary);
     transition: var(--transition);
+    text-align: center;
 }
 
 .toggle-slider {
     position: absolute;
-    top: 4px;
-    left: 4px;
-    width: calc(50% - 4px);
-    height: calc(100% - 8px);
+    top: 6px;
+    left: 6px;
+    width: calc(50% - 6px);
+    height: calc(100% - 12px);
     background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
     z-index: 1;
 }
 
@@ -425,8 +417,33 @@ p {
     font-weight: 600;
 }
 
-.toggle-switch input:checked + .toggle-option .toggle-icon {
-    transform: scale(1.1);
+/* Remove old styles */
+.toggle-title {
+    display: none;
+}
+
+.toggle-icon {
+    display: none;
+}
+
+/* Responsive toggle */
+@media (max-width: 640px) {
+    .toggle-switch {
+        min-width: 320px;
+        margin: 0 var(--space-sm);
+    }
+    
+    .toggle-option {
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .toggle-text {
+        font-size: 0.8rem;
+    }
+    
+    .section-toggle {
+        margin-bottom: -40px;
+    }
 }
 
 /* Audience Content Management */
@@ -451,25 +468,6 @@ p {
 .hirers-only.show {
     display: block;
     opacity: 1;
-}
-
-/* Responsive toggle */
-@media (max-width: 640px) {
-    .toggle-option {
-        padding: var(--space-sm) var(--space-md);
-    }
-    
-    .toggle-title {
-        font-size: 1.25rem;
-    }
-    
-    .toggle-text {
-        font-size: 0.75rem;
-    }
-    
-    .toggle-icon {
-        font-size: 1.25rem;
-    }
 }
 
 .section-light {

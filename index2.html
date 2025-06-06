@@ -51,8 +51,8 @@
                         No CVs. No guesswork. Just real people, real conversations.
                     </p>
                     <div class="hero-buttons">
-                        <a href="#for-hirers" class="btn btn-primary">I'm hiring</a>
-                        <a href="#for-talent" class="btn btn-secondary">I'm seeking work</a>
+                        <a href="#how-it-works" class="btn btn-primary" data-audience="hirers">I'm hiring</a>
+                        <a href="#how-it-works" class="btn btn-secondary" data-audience="talent">I'm seeking work</a>
                     </div>
                     <div class="hero-stats">
                         <div class="stat">
@@ -78,30 +78,27 @@
         </div>
     </section>
 
-    <!-- Audience Toggle Section -->
-    <section class="toggle-section">
-        <div class="container">
-            <div class="audience-toggle">
-                <div class="toggle-title">Choose your path</div>
-                <div class="toggle-switch">
-                    <input type="radio" id="toggle-hirers" name="audience" value="hirers" checked>
-                    <input type="radio" id="toggle-talent" name="audience" value="talent">
-                    <label for="toggle-hirers" class="toggle-option">
-                        <span class="toggle-icon">🏢</span>
-                        <span class="toggle-text">I'm Hiring</span>
-                    </label>
-                    <label for="toggle-talent" class="toggle-option">
-                        <span class="toggle-icon">💼</span>
-                        <span class="toggle-text">I'm Seeking Work</span>
-                    </label>
-                    <div class="toggle-slider"></div>
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="section">
+        <!-- Embedded Toggle -->
+        <div class="section-toggle">
+            <div class="container">
+                <div class="audience-toggle">
+                    <div class="toggle-switch">
+                        <input type="radio" id="toggle-hirers" name="audience" value="hirers" checked>
+                        <input type="radio" id="toggle-talent" name="audience" value="talent">
+                        <label for="toggle-hirers" class="toggle-option">
+                            <span class="toggle-text">I'm Hiring</span>
+                        </label>
+                        <label for="toggle-talent" class="toggle-option">
+                            <span class="toggle-text">I'm Seeking Work</span>
+                        </label>
+                        <div class="toggle-slider"></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- How It Works Section -->
-    <section id="how-it-works" class="section">
         <!-- For Hirers Content -->
         <div class="audience-content hirers-content active" id="hirers-content">
             <div class="section section-light">
