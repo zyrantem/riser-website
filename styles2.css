@@ -7,7 +7,7 @@
 
 :root {
     /* Colors */
-    --primary: #ff5c00;
+    --primary: #FF5A44;
     --primary-light: #ff7733;
     --primary-dark: #e64a00;
     --dark: #000000;
@@ -97,14 +97,14 @@ p {
 }
 
 .btn-primary {
-    background-color: var(--primary);
+    background: linear-gradient(135deg, #FF4143 0%, #FD8F4B 100%);
     color: var(--white);
-    border-color: var(--primary);
+    border: none;
 }
 
 .btn-primary:hover {
-    background-color: var(--primary-dark);
-    border-color: var(--primary-dark);
+    background: linear-gradient(135deg, #e63946 0%, #e07843 100%);
+    border: none;
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
 }
@@ -173,7 +173,7 @@ p {
 }
 
 .nav-cta {
-    background-color: var(--primary);
+    background: linear-gradient(135deg, #FF4143 0%, #FD8F4B 100%);
     color: var(--white);
     padding: var(--space-xs) var(--space-md);
     border-radius: var(--radius-md);
@@ -184,7 +184,7 @@ p {
 }
 
 .nav-cta:hover {
-    background-color: var(--primary-dark);
+    background: linear-gradient(135deg, #e63946 0%, #e07843 100%);
     transform: translateY(-1px);
 }
 
@@ -393,12 +393,12 @@ p {
 }
 
 .toggle-option:hover {
-    background-color: rgba(255, 92, 0, 0.08);
+    background-color: rgba(255, 65, 67, 0.08);
     transform: translateY(-1px);
 }
 
 .toggle-option:hover .toggle-text {
-    color: var(--primary);
+    color: #FF4143;
     font-weight: 600;
 }
 
@@ -416,7 +416,7 @@ p {
     left: 6px;
     width: calc(50% - 6px);
     height: calc(100% - 12px);
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    background: linear-gradient(135deg, #FF4143 0%, #FD8F4B 100%);
     border-radius: var(--radius-md);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: var(--shadow-md);
@@ -652,7 +652,7 @@ p {
 .feature-icon {
     width: 2rem;
     height: 2rem;
-    background-color: var(--primary);
+    background: linear-gradient(135deg, #FF4143 0%, #FD8F4B 100%);
     border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
@@ -727,7 +727,7 @@ p {
 .step-number {
     width: 2rem;
     height: 2rem;
-    background-color: var(--primary);
+    background: linear-gradient(135deg, #FF4143 0%, #FD8F4B 100%);
     color: var(--white);
     border-radius: 50%;
     display: flex;
@@ -861,7 +861,7 @@ p {
     top: -0.75rem;
     left: 50%;
     transform: translateX(-50%);
-    background-color: var(--primary);
+    background: linear-gradient(135deg, #FF4143 0%, #FD8F4B 100%);
     color: var(--white);
     padding: var(--space-xs) var(--space-sm);
     border-radius: var(--radius-sm);
@@ -920,7 +920,7 @@ p {
     content: '✓';
     position: absolute;
     left: 0;
-    color: var(--primary);
+    color: #FF4143;
     font-weight: 600;
 }
 
