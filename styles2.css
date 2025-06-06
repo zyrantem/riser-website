@@ -143,6 +143,9 @@ p {
     align-items: center;
     justify-content: space-between;
     height: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
 }
 
 .nav-logo .logo {
@@ -912,6 +915,10 @@ p {
 }
 
 @media (max-width: 768px) {
+    .nav-container {
+        padding: 0 var(--space-sm);
+    }
+    
     .nav-menu {
         display: none;
     }
