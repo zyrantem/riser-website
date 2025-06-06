@@ -365,6 +365,13 @@ p {
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--gray-200);
     min-width: 400px;
+    transition: var(--transition-slow);
+}
+
+.toggle-switch:hover {
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-2px);
+    border-color: var(--gray-300);
 }
 
 .toggle-switch input[type="radio"] {
@@ -383,6 +390,16 @@ p {
     z-index: 2;
     position: relative;
     font-weight: 500;
+}
+
+.toggle-option:hover {
+    background-color: rgba(255, 92, 0, 0.08);
+    transform: translateY(-1px);
+}
+
+.toggle-option:hover .toggle-text {
+    color: var(--primary);
+    font-weight: 600;
 }
 
 .toggle-text {
