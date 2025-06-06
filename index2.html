@@ -19,8 +19,7 @@
             </div>
             <div class="nav-menu" id="nav-menu">
                 <a href="#home" class="nav-link">Home</a>
-                <a href="#for-hirers" class="nav-link">For Hirers</a>
-                <a href="#for-talent" class="nav-link">For Talent</a>
+                <a href="#how-it-works" class="nav-link">How it Works</a>
                 <a href="#pricing" class="nav-link">Pricing</a>
                 <a href="#" class="nav-cta">Start Free Trial</a>
             </div>
@@ -79,72 +78,99 @@
         </div>
     </section>
 
-    <!-- For Hirers Section -->
-    <section id="for-hirers" class="section section-light">
+    <!-- Audience Toggle Section -->
+    <section class="toggle-section">
         <div class="container">
-            <div class="section-content">
-                <div class="section-text">
-                    <div class="section-tag">For Hirers</div>
-                    <h2 class="section-title">
-                        Find your next hire in days, not months
-                    </h2>
-                    <p class="section-subtitle">
-                        Create opportunity pitches in minutes. Match with talent instantly. 
-                        Book interviews in seconds.
-                    </p>
-                    <div class="features-list">
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path d="M10 1L12.5 6L18 7L13 12L15 18L10 15L5 18L7 12L2 7L7.5 6L10 1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <span>AI-powered video pitch creation</span>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path d="M16 14C16 16.2091 14.2091 18 12 18H4C1.79086 18 0 16.2091 0 14V6C0 3.79086 1.79086 2 4 2H12C14.2091 2 16 3.79086 16 6V14Z" stroke="currentColor" stroke-width="1.5"/>
-                                </svg>
-                            </div>
-                            <span>Smart talent matching & filtering</span>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path d="M8 12L12 8M8 8L12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                                </svg>
-                            </div>
-                            <span>Direct interview scheduling</span>
-                        </div>
-                    </div>
-                    <a href="#" class="btn btn-primary">Start hiring</a>
+            <div class="audience-toggle">
+                <div class="toggle-title">Choose your path</div>
+                <div class="toggle-switch">
+                    <input type="radio" id="toggle-hirers" name="audience" value="hirers" checked>
+                    <input type="radio" id="toggle-talent" name="audience" value="talent">
+                    <label for="toggle-hirers" class="toggle-option">
+                        <span class="toggle-icon">🏢</span>
+                        <span class="toggle-text">I'm Hiring</span>
+                    </label>
+                    <label for="toggle-talent" class="toggle-option">
+                        <span class="toggle-icon">💼</span>
+                        <span class="toggle-text">I'm Seeking Work</span>
+                    </label>
+                    <div class="toggle-slider"></div>
                 </div>
-                <div class="section-visual">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">How it works</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="section">
+        <!-- For Hirers Content -->
+        <div class="audience-content hirers-content active" id="hirers-content">
+            <div class="section section-light">
+                <div class="container">
+                    <div class="section-content">
+                        <div class="section-text">
+                            <div class="section-tag">For Hirers</div>
+                            <h2 class="section-title">
+                                Find your next hire in days, not months
+                            </h2>
+                            <p class="section-subtitle">
+                                Create opportunity pitches in minutes. Match with talent instantly. 
+                                Book interviews in seconds.
+                            </p>
+                            <div class="features-list">
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M10 1L12.5 6L18 7L13 12L15 18L10 15L5 18L7 12L2 7L7.5 6L10 1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <span>AI-powered video pitch creation</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M16 14C16 16.2091 14.2091 18 12 18H4C1.79086 18 0 16.2091 0 14V6C0 3.79086 1.79086 2 4 2H12C14.2091 2 16 3.79086 16 6V14Z" stroke="currentColor" stroke-width="1.5"/>
+                                        </svg>
+                                    </div>
+                                    <span>Smart talent matching & filtering</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M8 12L12 8M8 8L12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <span>Direct interview scheduling</span>
+                                </div>
+                            </div>
+                            <a href="#pricing" class="btn btn-primary">View Pricing</a>
                         </div>
-                        <div class="steps">
-                            <div class="step">
-                                <div class="step-number">1</div>
-                                <div class="step-content">
-                                    <h4>Create your pitch</h4>
-                                    <p>Use AI to craft the perfect video pitch for your role</p>
+                        <div class="section-visual">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">How it works</div>
                                 </div>
-                            </div>
-                            <div class="step">
-                                <div class="step-number">2</div>
-                                <div class="step-content">
-                                    <h4>Match with talent</h4>
-                                    <p>Browse and match with candidates who fit your needs</p>
-                                </div>
-                            </div>
-                            <div class="step">
-                                <div class="step-number">3</div>
-                                <div class="step-content">
-                                    <h4>Book interviews</h4>
-                                    <p>Schedule interviews directly with your matches</p>
+                                <div class="steps">
+                                    <div class="step">
+                                        <div class="step-number">1</div>
+                                        <div class="step-content">
+                                            <h4>Create your pitch</h4>
+                                            <p>Use AI to craft the perfect video pitch for your role</p>
+                                        </div>
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-number">2</div>
+                                        <div class="step-content">
+                                            <h4>Match with talent</h4>
+                                            <p>Browse and match with candidates who fit your needs</p>
+                                        </div>
+                                    </div>
+                                    <div class="step">
+                                        <div class="step-number">3</div>
+                                        <div class="step-content">
+                                            <h4>Book interviews</h4>
+                                            <p>Schedule interviews directly with your matches</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -152,81 +178,83 @@
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- For Talent Section -->
-    <section id="for-talent" class="section section-dark">
-        <div class="talent-video-background">
-            <video autoplay muted loop playsinline class="talent-video">
-                <source src="assets-inspiration/6913272-uhd_3840_2160_25fps.mp4" type="video/mp4">
-            </video>
-            <div class="talent-video-overlay"></div>
-        </div>
-        <div class="container">
-            <div class="section-content">
-                <div class="section-text">
-                    <div class="section-tag">For Talent</div>
-                    <h2 class="section-title">
-                        Land your next opportunity in 2 weeks
-                    </h2>
-                    <p class="section-subtitle">
-                        Create your video pitch. Get discovered by hirers. 
-                        Connect directly with decision makers.
-                    </p>
-                    <div class="features-list">
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path d="M10 1L12.5 6L18 7L13 12L15 18L10 15L5 18L7 12L2 7L7.5 6L10 1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <span>AI career coach & video creation</span>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path d="M6 10L8 12L14 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <span>Direct conversations with hirers</span>
-                        </div>
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path d="M12 2L15 8L21 9L15 15L17 21L12 18L7 21L9 15L3 9L9 8L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                            <span>Earn from referrals</span>
-                        </div>
-                    </div>
-                    <a href="#" class="btn btn-primary">Start free</a>
-                    <p class="free-note">Free for talent. Always.</p>
+        <!-- For Talent Content -->
+        <div class="audience-content talent-content" id="talent-content">
+            <div class="section section-dark">
+                <div class="talent-video-background">
+                    <video autoplay muted loop playsinline class="talent-video">
+                        <source src="assets-inspiration/6913272-uhd_3840_2160_25fps.mp4" type="video/mp4">
+                    </video>
+                    <div class="talent-video-overlay"></div>
                 </div>
-                <div class="section-visual">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">RISER vs Traditional</div>
-                        </div>
-                        <div class="comparison">
-                            <div class="comparison-item positive">
-                                <div class="comparison-label">RISER</div>
-                                <ul>
-                                    <li>Video matching</li>
-                                    <li>AI career coach</li>
-                                    <li>Direct connections</li>
-                                    <li>Instant interviews</li>
-                                    <li>Free for talent</li>
-                                </ul>
+                <div class="container">
+                    <div class="section-content">
+                        <div class="section-text">
+                            <div class="section-tag">For Talent</div>
+                            <h2 class="section-title">
+                                Land your next opportunity in 2 weeks
+                            </h2>
+                            <p class="section-subtitle">
+                                Create your video pitch. Get discovered by hirers. 
+                                Connect directly with decision makers.
+                            </p>
+                            <div class="features-list">
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M10 1L12.5 6L18 7L13 12L15 18L10 15L5 18L7 12L2 7L7.5 6L10 1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <span>AI career coach & video creation</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M6 10L8 12L14 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <span>Direct conversations with hirers</span>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M12 2L15 8L21 9L15 15L17 21L12 18L7 21L9 15L3 9L9 8L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <span>Earn from referrals</span>
+                                </div>
                             </div>
-                            <div class="comparison-item negative">
-                                <div class="comparison-label">Traditional</div>
-                                <ul>
-                                    <li>CV-based applications</li>
-                                    <li>Algorithm bias</li>
-                                    <li>Slow hiring process</li>
-                                    <li>Multiple tools needed</li>
-                                    <li>Hidden costs</li>
-                                </ul>
+                            <a href="#" class="btn btn-primary">Start Free</a>
+                            <p class="free-note">Free for talent. Always.</p>
+                        </div>
+                        <div class="section-visual">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">RISER vs Traditional</div>
+                                </div>
+                                <div class="comparison">
+                                    <div class="comparison-item positive">
+                                        <div class="comparison-label">RISER</div>
+                                        <ul>
+                                            <li>Video matching</li>
+                                            <li>AI career coach</li>
+                                            <li>Direct connections</li>
+                                            <li>Instant interviews</li>
+                                            <li>Free for talent</li>
+                                        </ul>
+                                    </div>
+                                    <div class="comparison-item negative">
+                                        <div class="comparison-label">Traditional</div>
+                                        <ul>
+                                            <li>CV-based applications</li>
+                                            <li>Algorithm bias</li>
+                                            <li>Slow hiring process</li>
+                                            <li>Multiple tools needed</li>
+                                            <li>Hidden costs</li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -236,7 +264,7 @@
     </section>
 
     <!-- Pricing Section -->
-    <section id="pricing" class="section section-light">
+    <section id="pricing" class="section section-light hirers-only">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Simple, transparent pricing</h2>

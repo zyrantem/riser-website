@@ -42,6 +42,59 @@ document.addEventListener('DOMContentLoaded', function() {
         typeText();
     }
 
+    // Audience Toggle Functionality
+    function initAudienceToggle() {
+        const hirerRadio = document.getElementById('toggle-hirers');
+        const talentRadio = document.getElementById('toggle-talent');
+        const hirersContent = document.getElementById('hirers-content');
+        const talentContent = document.getElementById('talent-content');
+        const pricingSection = document.querySelector('.hirers-only');
+
+        function switchAudience(audience) {
+            // Remove active class from all content
+            hirersContent.classList.remove('active');
+            talentContent.classList.remove('active');
+            
+            // Add active class to selected audience
+            if (audience === 'hirers') {
+                hirersContent.classList.add('active');
+                pricingSection.classList.add('show');
+            } else {
+                talentContent.classList.add('active');
+                pricingSection.classList.remove('show');
+            }
+
+            // Update navigation link for pricing
+            const pricingNavLink = document.querySelector('a[href="#pricing"]');
+            if (pricingNavLink) {
+                if (audience === 'hirers') {
+                    pricingNavLink.style.display = 'block';
+                } else {
+                    pricingNavLink.style.display = 'none';
+                }
+            }
+        }
+
+        // Handle radio button changes
+        hirerRadio.addEventListener('change', function() {
+            if (this.checked) {
+                switchAudience('hirers');
+            }
+        });
+
+        talentRadio.addEventListener('change', function() {
+            if (this.checked) {
+                switchAudience('talent');
+            }
+        });
+
+        // Initialize with hirers by default
+        switchAudience('hirers');
+    }
+
+    // Initialize toggle functionality
+    initAudienceToggle();
+
     // Handle navigation links
     const navLinks = document.querySelectorAll('a[href^="#"]');
     
