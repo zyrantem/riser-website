@@ -413,7 +413,7 @@ p {
 
 /* Active state styling */
 .toggle-switch input:checked + .toggle-option .toggle-text {
-    color: var(--white);
+    color: var(--text-primary);
     font-weight: 600;
 }
 
@@ -456,6 +456,22 @@ p {
 .audience-content.active {
     display: block;
     opacity: 1;
+}
+
+/* Hirers content styling */
+.hirers-content .section-light {
+    border-top: 3px solid var(--primary);
+    position: relative;
+}
+
+.hirers-content .section-light::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--gray-200) 20%, var(--gray-200) 80%, transparent 100%);
 }
 
 /* Hirers-only content (pricing) */
