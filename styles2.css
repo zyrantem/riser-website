@@ -132,10 +132,12 @@ p {
     top: 0;
     left: 0;
     right: 0;
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--gray-200);
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     z-index: 1000;
+    transition: var(--transition);
 }
 
 .nav-container {
@@ -161,7 +163,7 @@ p {
 }
 
 .nav-link {
-    color: var(--text-secondary);
+    color: #000000;
     text-decoration: none;
     font-size: 0.875rem;
     font-weight: 500;
@@ -169,7 +171,7 @@ p {
 }
 
 .nav-link:hover {
-    color: var(--text-primary);
+    color: rgba(255, 255, 255, 1);
 }
 
 .nav-cta {
@@ -198,14 +200,14 @@ p {
 .hamburger span {
     width: 20px;
     height: 2px;
-    background-color: var(--text-primary);
+    background-color: #000000;
     transition: var(--transition);
 }
 
 /* Hero Section */
 .hero {
     padding: var(--space-3xl) 0;
-    margin-top: 4rem;
+    padding-top: calc(var(--space-3xl) + 4rem);
     background: linear-gradient(to bottom, var(--gray-50), var(--white));
     position: relative;
     overflow: hidden;
@@ -249,7 +251,7 @@ p {
 
 .hero-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.5fr 0.5fr;
     gap: var(--space-3xl);
     align-items: center;
 }
@@ -404,7 +406,7 @@ p {
 
 .toggle-text {
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: bold;
     color: var(--text-primary);
     transition: var(--transition);
     text-align: center;
@@ -432,6 +434,26 @@ p {
 .toggle-switch input:checked + .toggle-option .toggle-text {
     color: var(--text-primary);
     font-weight: 600;
+}
+
+/* Active state styling for the actual structure */
+.toggle-switch input[id="toggle-hirers"]:checked ~ label[for="toggle-hirers"] .toggle-text {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.toggle-switch input[id="toggle-talent"]:checked ~ label[for="toggle-talent"] .toggle-text {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Keep text black when active element is hovered */
+.toggle-switch input[id="toggle-hirers"]:checked ~ label[for="toggle-hirers"]:hover .toggle-text {
+    color: var(--text-primary) !important;
+}
+
+.toggle-switch input[id="toggle-talent"]:checked ~ label[for="toggle-talent"]:hover .toggle-text {
+    color: var(--text-primary) !important;
 }
 
 /* Remove old styles */
@@ -1082,15 +1104,65 @@ p {
     }
     
     .nav-menu {
-        display: none;
+        position: fixed;
+        top: 4rem;
+        left: 0;
+        right: 0;
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: var(--space-lg);
+        gap: var(--space-lg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 999;
+    }
+    
+    .nav-menu.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .nav-link {
+        color: var(--text-primary);
+        padding: var(--space-sm) 0;
+        border-bottom: 1px solid var(--gray-200);
+        text-align: center;
+    }
+    
+    .nav-link:hover {
+        color: var(--primary);
+    }
+    
+    .nav-cta {
+        margin-top: var(--space-sm);
+        text-align: center;
     }
     
     .hamburger {
         display: flex;
     }
     
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+    
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+    }
+    
     .hero {
         padding: var(--space-xl) 0;
+        padding-top: calc(var(--space-xl) + 5rem);
     }
     
     .hero-title {
