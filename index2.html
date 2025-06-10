@@ -7,7 +7,7 @@
     <meta name="description" content="Connect talent with opportunities through authentic video connections. Clean, professional, and effective.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles2.css">
 </head>
 <body>
@@ -373,29 +373,125 @@
         </div>
         <div class="container">
             <div class="social-proof">
-                <h3 class="social-title">Trusted by thousands</h3>
-                <div class="testimonials">
-                    <div class="testimonial">
-                        <p>"This will truly change how we discover opportunities. It's democratizing access to people and networks."</p>
-                        <div class="testimonial-author">
-                            <strong>Sarah J.</strong>
-                            <span>Hiring Manager</span>
+                <h3 class="social-title">What our community is saying</h3>
+                <p class="social-subtitle">Real testimonials from professionals transforming their careers</p>
+                <div class="testimonials-carousel">
+                    <div class="carousel-controls">
+                        <button class="carousel-btn prev-btn" id="prevBtn">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M12.5 5L7.5 10L12.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <button class="carousel-btn next-btn" id="nextBtn">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="testimonials-track" id="testimonialsTrack">
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="quote-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" fill="currentColor"/>
+                                    </svg>
+                                </div>
+                                <p>"Our UK-based company, Event Staff LDN, has recently partnered with RISER to help find and support some of the best event talent across the UK. This collaboration means a lot to us..."</p>
+                                <button class="show-more-btn" data-testimonial="lucy">Show More</button>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-info">
+                                    <strong>Lucy Williamson</strong>
+                                    <span>Director @ ESME LLC & ESLDN</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="quote-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" fill="currentColor"/>
+                                    </svg>
+                                </div>
+                                <p>"I went to RISER event 'Design the Life You Want'. RISER is reimagining networking, making it more FUN and less awkward. I saw the vision and am absolutely here for it..."</p>
+                                <button class="show-more-btn" data-testimonial="dayana">Show More</button>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-info">
+                                    <strong>Dayana Collazos Ibarra</strong>
+                                    <span>Top 25 Marketer to follow in 2025</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="quote-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" fill="currentColor"/>
+                                    </svg>
+                                </div>
+                                <p>"A cover letter isn't an invitation to paraphrase your CV. It's your first pitch. A chance to demonstrate understanding of the business. RISER is championing this with video pitches..."</p>
+                                <button class="show-more-btn" data-testimonial="gabriela">Show More</button>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-info">
+                                    <strong>Gabriela Flax</strong>
+                                    <span>Career Wellness Coach</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="quote-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" fill="currentColor"/>
+                                    </svg>
+                                </div>
+                                <p>"This will truly change how we discover opportunities. It's democratizing access to people and networks. The future of professional networking is here..."</p>
+                                <button class="show-more-btn" data-testimonial="sarah">Show More</button>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-info">
+                                    <strong>Sarah Johnson</strong>
+                                    <span>Hiring Manager</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="quote-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" fill="currentColor"/>
+                                    </svg>
+                                </div>
+                                <p>"I was rejected from 500+ jobs. One I got rejected for, I ended up landing through RISER. The platform connects you directly with decision makers..."</p>
+                                <button class="show-more-btn" data-testimonial="mike">Show More</button>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-info">
+                                    <strong>Mike Chen</strong>
+                                    <span>Software Developer</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="testimonial">
-                        <p>"I was rejected from 500+ jobs. One I got rejected for, I ended up landing through RISER."</p>
-                        <div class="testimonial-author">
-                            <strong>Mike C.</strong>
-                            <span>Software Developer</span>
-                        </div>
+                    
+                    <div class="carousel-indicators">
+                        <span class="indicator active" data-slide="0"></span>
+                        <span class="indicator" data-slide="1"></span>
+                        <span class="indicator" data-slide="2"></span>
                     </div>
-                    <div class="testimonial">
-                        <p>"This is the future of networking. The app makes connecting so much easier."</p>
-                        <div class="testimonial-author">
-                            <strong>Emily R.</strong>
-                            <span>Product Manager</span>
-                        </div>
-                    </div>
+                </div>
+                
+                <!-- Load More Button for Future Testimonials -->
+                <div class="testimonials-cta">
+                    <button class="btn btn-secondary load-more-testimonials" style="display: none;">Load More Stories</button>
+                    <p class="testimonials-note">Join thousands of professionals transforming their careers</p>
                 </div>
             </div>
         </div>
@@ -460,6 +556,29 @@
             </div>
         </div>
     </footer>
+
+    <!-- Testimonial Modal -->
+    <div id="testimonialModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalAuthorName"></h3>
+                <span id="modalAuthorTitle"></span>
+                <button class="modal-close" id="closeModal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-quote-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <p id="modalTestimonialText"></p>
+            </div>
+        </div>
+    </div>
 
     <script src="script2.js"></script>
 </body>

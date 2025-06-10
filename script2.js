@@ -168,40 +168,44 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Handle hero buttons with audience data (the link buttons that should scroll)
+        // Handle hero buttons with audience data (expand first, then scroll on second click)
         const heroButtons = document.querySelectorAll('a[data-audience]');
         heroButtons.forEach(button => {
             button.addEventListener('click', function(e) {
                 console.log('Audience button clicked:', this.textContent);
                 e.preventDefault();
                 const audience = this.getAttribute('data-audience');
-                const targetId = this.getAttribute('href');
                 
-                // Expand the appropriate hero box immediately
+                // Check if the hero box is already expanded
                 const heroBox = this.closest('.hero-side-inner');
+                const isAlreadyExpanded = heroBox && heroBox.classList.contains('expanded');
+                
+                // Always expand the appropriate hero box
                 if (heroBox && window.expandHeroBox) {
                     window.expandHeroBox(heroBox);
                 }
                 
-                // Switch to the correct audience first
+                // Switch to the correct audience
                 switchAudience(audience);
                 
-                // Then scroll to the section containing the audience content
-                setTimeout(() => {
-                    // Always scroll to the how-it-works section which contains both audience contents
-                    const howItWorksSection = document.querySelector('#how-it-works');
-                    if (howItWorksSection) {
-                        const navHeight = document.querySelector('.nav').offsetHeight || 0;
-                        const targetPosition = howItWorksSection.offsetTop - navHeight;
-                        
-                        console.log('Scrolling to how-it-works section at position:', targetPosition);
-                        
-                        window.scrollTo({
-                            top: targetPosition,
-                            behavior: 'smooth'
-                        });
-                    }
-                }, 100); // Small delay to ensure content is switched first
+                // Only scroll if the box was already expanded (second click)
+                if (isAlreadyExpanded) {
+                    setTimeout(() => {
+                        // Scroll to the how-it-works section which contains both audience contents
+                        const howItWorksSection = document.querySelector('#how-it-works');
+                        if (howItWorksSection) {
+                            const navHeight = document.querySelector('.nav').offsetHeight || 0;
+                            const targetPosition = howItWorksSection.offsetTop - navHeight;
+                            
+                            console.log('Box was expanded, scrolling to how-it-works section at position:', targetPosition);
+                            
+                            window.scrollTo({
+                                top: targetPosition,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }, 100); // Small delay to ensure content is switched first
+                }
             });
         });
 
@@ -504,4 +508,219 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     `;
     document.head.appendChild(style);
+    
+    // Testimonials Carousel Functionality
+    function initTestimonialsCarousel() {
+        const track = document.getElementById('testimonialsTrack');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const indicators = document.querySelectorAll('.indicator');
+        
+        if (!track || !prevBtn || !nextBtn) return;
+        
+        const cards = track.querySelectorAll('.testimonial-card');
+        const totalCards = cards.length;
+        let currentSlide = 0;
+        const cardsPerView = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1;
+        const maxSlides = Math.max(0, totalCards - cardsPerView);
+        
+        function updateCarousel() {
+            const cardWidth = track.querySelector('.testimonial-card').offsetWidth;
+            const gap = 24; // var(--space-lg) in pixels
+            const translateX = currentSlide * (cardWidth + gap);
+            track.style.transform = `translateX(-${translateX}px)`;
+            
+            // Update indicators
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === Math.floor(currentSlide / cardsPerView * 3));
+            });
+            
+            // Update button states
+            prevBtn.style.opacity = currentSlide === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentSlide >= maxSlides ? '0.5' : '1';
+        }
+        
+        function nextSlide() {
+            if (currentSlide < maxSlides) {
+                currentSlide++;
+                updateCarousel();
+            }
+        }
+        
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateCarousel();
+            }
+        }
+        
+        // Event listeners
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+        
+        // Indicator clicks
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                currentSlide = Math.min(index * Math.ceil(cardsPerView), maxSlides);
+                updateCarousel();
+            });
+        });
+        
+        // Auto-play functionality
+        let autoPlayInterval;
+        const startAutoPlay = () => {
+            autoPlayInterval = setInterval(() => {
+                if (currentSlide >= maxSlides) {
+                    currentSlide = 0;
+                } else {
+                    currentSlide++;
+                }
+                updateCarousel();
+            }, 5000);
+        };
+        
+        const stopAutoPlay = () => {
+            clearInterval(autoPlayInterval);
+        };
+        
+        // Touch/swipe support
+        let startX, endX;
+        track.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            stopAutoPlay();
+        });
+        
+        track.addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+            startAutoPlay();
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+        });
+        
+        // Pause auto-play on hover
+        track.addEventListener('mouseenter', stopAutoPlay);
+        track.addEventListener('mouseleave', startAutoPlay);
+        
+        // Resize handler
+        window.addEventListener('resize', utils.debounce(() => {
+            const newCardsPerView = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1;
+            if (newCardsPerView !== cardsPerView) {
+                currentSlide = 0;
+                updateCarousel();
+            }
+        }, 250));
+        
+        // Initialize
+        updateCarousel();
+        startAutoPlay();
+    }
+    
+    // Initialize carousel after DOM is loaded
+    initTestimonialsCarousel();
+    
+    // Testimonial Modal Functionality
+    function initTestimonialModal() {
+        const modal = document.getElementById('testimonialModal');
+        const closeBtn = document.getElementById('closeModal');
+        const modalAuthorName = document.getElementById('modalAuthorName');
+        const modalAuthorTitle = document.getElementById('modalAuthorTitle');
+        const modalTestimonialText = document.getElementById('modalTestimonialText');
+        
+        // Full testimonial data
+        const testimonialData = {
+            lucy: {
+                name: "Lucy Williamson",
+                title: "Director @ ESME LLC & ESLDN | Event Management",
+                text: "Over the past few months, we've been growing our event staffing services here in Dubai — supporting everything from corporate functions to private events with a team of reliable, hardworking professionals. It's been rewarding to see how much of a difference the right staff can make on the day of an event.\n\nOn an exciting note, our UK-based company, Event Staff LDN, has recently partnered with RISER to help find and support some of the best event talent across the UK. This collaboration means a lot to us — bringing together experience, aligned goals, and a shared commitment to quality staffing.\n\nHere's to great people, great partnerships, and great events — in Dubai, the UK, and beyond."
+            },
+            dayana: {
+                name: "Dayana Collazos Ibarra",
+                title: "Top 25 Marketer to follow in 2025 | Social Media Executive @ The Folio Society",
+                text: "Did I go to one of the best networking events? 🤔\n\nLast Wednesday, I went to RISER event 'Design the Life You Want'.\n\nWhen I saw Sophie and Allanah post about this event, of course, I had to go.\n\nIt was so inspiring hearing from Sophie Miller, Billie Bhatia and Faye Longhurst and taking in all of their wisdom and advice from their experiences so far.\n\nBut I LOVED the way the team at Riser, Lamees Butt and Suz Bannister, hosted this event.\n\nRISER is reimagining the term networking, because it is such a buzzword that a lot of people actually hate and are scared off by.\n\nI saw the vision the team has, and I am absolutely here for it.\n\nI hope others planning events take note of how they can make the networking element of an event more FUN and less awkward.\n\nWhat do you think? Does the term networking need a revamp? 🧠"
+            },
+            gabriela: {
+                name: "Gabriela Flax",
+                title: "Career Wellness Coach | Creative Content Specialist",
+                text: "If your cover letter starts with 'I am an XYZ expert with 10 years of experience...' → DELETE it.\n\nInstead try something like:\n\n'[Company Name] has the audience and authority to shape how Australians think about mental health. But without a cohesive tone of voice, that influence risks feeling fragmented. That's where I come in.'\n\nSee the difference?\n\nOne introduces a résumé.\nThe other introduces a value proposition.\n\nA cover letter isn't an invitation to paraphrase your CV.\nIt's your first pitch.\nYour best shot.\nA chance to demonstrate that you understand the business, the opportunity, and what's at stake.\n\nYou want to make them nod.\nYou want them to say: 'Finally, someone who gets it.'\n\nHere's another Before/After from a client I recently worked with:\n\nBEFORE: 'I'm writing to express my interest in the Marketing Manager position at X Company.'\n\nAFTER: 'X Company's recent pivot toward community-led growth opens the door for deeper brand trust, but only if the content strategy evolves with it. I build content ecosystems that turn followers into advocates.'\n\nWhen you lead with insight, you position yourself as a peer.\nWhen you lead with 'I', you stay in applicant mode.\n\nHere's your litmus test:\nIf your first line could be copied and pasted into a dozen other applications, start again.\n\nAnd if you're staring at a blank page thinking 'how do I know what to say?'\n\nStart with the job description.\nIt's not just a list of tasks.\nIt's a window into the company's pain points, priorities, and growth plans.\n\nThat's your material.\nThat's where the story starts.\n\nCherry on top? Make it a 30 second video.\nRISER is championing this approach."
+            },
+            sarah: {
+                name: "Sarah Johnson",
+                title: "Hiring Manager | Tech Startup",
+                text: "This will truly change how we discover opportunities. It's democratizing access to people and networks.\n\nThe future of professional networking is here with RISER's innovative approach to connecting talent with opportunities.\n\nWhat I love most is how it removes the traditional barriers and biases that have plagued hiring for decades. Instead of filtering through endless resumes, we get to see the person behind the application.\n\nThe video-first approach means we can assess cultural fit, communication skills, and passion in ways that a CV simply cannot capture.\n\nThis is exactly what the industry needed - a platform that puts human connection back at the center of professional networking."
+            },
+            mike: {
+                name: "Mike Chen",
+                title: "Software Developer | Recently Hired Through RISER",
+                text: "I was rejected from 500+ jobs. One I got rejected for, I ended up landing through RISER.\n\nThe platform connects you directly with decision makers who value your skills over just keywords.\n\nAfter months of sending applications into the void and getting automated rejections, RISER was a breath of fresh air.\n\nInstead of trying to game ATS systems or fit my experience into rigid job descriptions, I could just be myself and showcase what I'm actually capable of.\n\nThe hiring manager who eventually hired me said my video pitch showed exactly the kind of problem-solving mindset they were looking for - something that never would have come through in a traditional application.\n\nRISER didn't just help me find a job; it helped me find the right job with people who actually wanted to work with me."
+            }
+        };
+        
+        // Show modal function
+        function showModal(testimonialKey) {
+            const data = testimonialData[testimonialKey];
+            if (!data) return;
+            
+            modalAuthorName.textContent = data.name;
+            modalAuthorTitle.textContent = data.title;
+            modalTestimonialText.textContent = `"${data.text}"`;
+            
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Hide modal function
+        function hideModal() {
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+        
+        // Event listeners for show more buttons using event delegation
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('show-more-btn')) {
+                e.stopPropagation();
+                e.preventDefault();
+                
+                const testimonialKey = e.target.getAttribute('data-testimonial');
+                console.log('Show more clicked for:', testimonialKey);
+                
+                if (testimonialKey && testimonialData[testimonialKey]) {
+                    showModal(testimonialKey);
+                } else {
+                    console.error('Invalid testimonial key:', testimonialKey);
+                }
+            }
+        });
+        
+        // Event listeners for closing modal
+        closeBtn.addEventListener('click', hideModal);
+        
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                hideModal();
+            }
+        });
+        
+        // Keyboard support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('show')) {
+                hideModal();
+            }
+        });
+    }
+    
+    // Initialize modal functionality
+    initTestimonialModal();
 }); 
