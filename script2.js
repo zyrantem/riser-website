@@ -1,46 +1,124 @@
 // Smooth scrolling for navigation links
 document.addEventListener('DOMContentLoaded', function() {
-    // Typing animation for hero title
-    const typingElement = document.getElementById('typing-text');
-    const jobTypes = ['Hire', 'Freelancer', 'Content Creator', 'Marketer', 'Producer', 'Consultant'];
-    let currentIndex = 0;
-    let isDeleting = false;
-    let currentText = '';
-    let typeSpeed = 100;
+    // Typing animation for hero titles
+    const hirerTypingElement = document.getElementById('typing-text-hirers');
+    const talentTypingElement = document.getElementById('typing-text-talent');
+    
+    const hirerJobTypes = ['Hire', 'Freelancer', 'Content Creator', 'Marketer', 'Producer', 'Consultant'];
+    const talentJobTypes = ['Gig', 'Role', 'Client', 'Project', 'Collab', 'Opportunity'];
 
-    function typeText() {
-        const currentJobType = jobTypes[currentIndex];
+    function createTypingAnimation(element, jobTypes, startDelay = 0) {
+        let currentIndex = 0;
+        let isDeleting = false;
+        let currentText = '';
+        let typeSpeed = 100;
+
+        function typeText() {
+            const currentJobType = jobTypes[currentIndex];
+            
+            if (isDeleting) {
+                currentText = currentJobType.substring(0, currentText.length - 1);
+                typeSpeed = 50; // Faster deletion
+            } else {
+                currentText = currentJobType.substring(0, currentText.length + 1);
+                typeSpeed = 100; // Faster typing speed
+            }
+
+            if (element) {
+                element.textContent = currentText;
+            }
+
+            if (!isDeleting && currentText === currentJobType) {
+                // Finished typing, pause then start deleting
+                typeSpeed = 1500; // Shorter pause for 1.5 seconds
+                isDeleting = true;
+            } else if (isDeleting && currentText === '') {
+                // Finished deleting, move to next job type
+                isDeleting = false;
+                currentIndex = (currentIndex + 1) % jobTypes.length;
+                typeSpeed = 300; // Shorter pause before typing next word
+            }
+
+            setTimeout(typeText, typeSpeed);
+        }
+
+        // Start animation with delay
+        setTimeout(() => {
+            if (element) {
+                typeText();
+            }
+        }, startDelay);
+    }
+
+    // Start both typing animations
+    createTypingAnimation(hirerTypingElement, hirerJobTypes, 0);
+    createTypingAnimation(talentTypingElement, talentJobTypes, 1000);
+
+    // Hero box click expansion (initialize BEFORE audience toggle)
+    function initHeroBoxes() {
+        const heroBoxes = document.querySelectorAll('.hero-side-inner');
         
-        if (isDeleting) {
-            currentText = currentJobType.substring(0, currentText.length - 1);
-            typeSpeed = 50; // Faster deletion
-        } else {
-            currentText = currentJobType.substring(0, currentText.length + 1);
-            typeSpeed = 100; // Faster typing speed
+        heroBoxes.forEach(box => {
+            box.addEventListener('click', function(e) {
+                // Don't expand if clicking on buttons with data-audience (let them handle navigation)
+                if (e.target.closest('a[data-audience]')) {
+                    return;
+                }
+                // Always expand when clicking anywhere else in the box
+                expandBox(this);
+            });
+        });
+        
+        // Function to expand a specific box
+        function expandBox(targetBox) {
+            const isExpanded = targetBox.classList.contains('expanded');
+            
+            // Close all boxes first
+            heroBoxes.forEach(otherBox => {
+                otherBox.classList.remove('expanded');
+            });
+            
+            // If this box wasn't expanded, expand it
+            if (!isExpanded) {
+                targetBox.classList.add('expanded');
+            }
         }
-
-        if (typingElement) {
-            typingElement.textContent = currentText;
-        }
-
-        if (!isDeleting && currentText === currentJobType) {
-            // Finished typing, pause then start deleting
-            typeSpeed = 1500; // Shorter pause for 1.5 seconds
-            isDeleting = true;
-        } else if (isDeleting && currentText === '') {
-            // Finished deleting, move to next job type
-            isDeleting = false;
-            currentIndex = (currentIndex + 1) % jobTypes.length;
-            typeSpeed = 300; // Shorter pause before typing next word
-        }
-
-        setTimeout(typeText, typeSpeed);
+        
+        // Close boxes when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.hero-side-inner')) {
+                heroBoxes.forEach(box => {
+                    box.classList.remove('expanded');
+                });
+            }
+        });
+        
+        // Expose expandBox function for use by button handlers
+        window.expandHeroBox = expandBox;
+        
+        // Add click handlers for the main hero CTA text buttons - SIMPLE EXPAND ONLY
+        const heroCtaButtons = document.querySelectorAll('.hero-cta-text');
+        heroCtaButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                console.log('CTA text button clicked:', this.textContent);
+                
+                // Stop any event propagation to prevent conflicts
+                e.stopPropagation();
+                e.preventDefault();
+                
+                const heroBox = this.closest('.hero-side-inner');
+                if (heroBox) {
+                    expandBox(heroBox);
+                    console.log('Box expanded for:', this.textContent);
+                }
+                
+                // That's it - no scrolling, no audience switching, just expand
+            });
+        });
     }
 
-    // Start the typing animation
-    if (typingElement) {
-        typeText();
-    }
+    // Initialize hero boxes FIRST
+    initHeroBoxes();
 
     // Audience Toggle Functionality
     function initAudienceToggle() {
@@ -90,15 +168,40 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Handle hero buttons with audience data
-        const heroButtons = document.querySelectorAll('.hero-buttons a[data-audience]');
+        // Handle hero buttons with audience data (the link buttons that should scroll)
+        const heroButtons = document.querySelectorAll('a[data-audience]');
         heroButtons.forEach(button => {
             button.addEventListener('click', function(e) {
+                console.log('Audience button clicked:', this.textContent);
+                e.preventDefault();
                 const audience = this.getAttribute('data-audience');
+                const targetId = this.getAttribute('href');
+                
+                // Expand the appropriate hero box immediately
+                const heroBox = this.closest('.hero-side-inner');
+                if (heroBox && window.expandHeroBox) {
+                    window.expandHeroBox(heroBox);
+                }
+                
+                // Switch to the correct audience first
                 switchAudience(audience);
                 
-                // Allow normal scroll behavior to continue
-                // The href="#how-it-works" will handle the scrolling
+                // Then scroll to the section containing the audience content
+                setTimeout(() => {
+                    // Always scroll to the how-it-works section which contains both audience contents
+                    const howItWorksSection = document.querySelector('#how-it-works');
+                    if (howItWorksSection) {
+                        const navHeight = document.querySelector('.nav').offsetHeight || 0;
+                        const targetPosition = howItWorksSection.offsetTop - navHeight;
+                        
+                        console.log('Scrolling to how-it-works section at position:', targetPosition);
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 100); // Small delay to ensure content is switched first
             });
         });
 
@@ -112,8 +215,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize toggle functionality
     initAudienceToggle();
 
-    // Handle navigation links
-    const navLinks = document.querySelectorAll('a[href^="#"]');
+    // Handle navigation links (excluding audience buttons which are handled separately)
+    const navLinks = document.querySelectorAll('a[href^="#"]:not([data-audience])');
     
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
