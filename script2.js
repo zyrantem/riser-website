@@ -638,6 +638,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const modalAuthorName = document.getElementById('modalAuthorName');
         const modalAuthorTitle = document.getElementById('modalAuthorTitle');
         const modalTestimonialText = document.getElementById('modalTestimonialText');
+        const modalProfileImg = document.getElementById('modalProfileImg');
         
         // Full testimonial data
         const testimonialData = {
@@ -673,9 +674,42 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = testimonialData[testimonialKey];
             if (!data) return;
             
+            const modalPostAuthor = document.getElementById('modalPostAuthor');
+            const modalEngagementStats = document.getElementById('modalEngagementStats');
+            const modalProfileImg = document.getElementById('modalProfileImg');
+            
+            // Set author initials
+            const initials = data.name.split(' ').map(n => n[0]).join('');
+            modalPostAuthor.setAttribute('data-initials', initials);
+            
+            // Set profile image if available
+            const profileImages = {
+                lucy: 'assets-inspiration/lucy.png',
+                dayana: 'assets-inspiration/dayana.png',
+                gabriela: 'assets-inspiration/gabriela.png'
+            };
+            if (profileImages[testimonialKey]) {
+                modalProfileImg.src = profileImages[testimonialKey];
+                modalProfileImg.style.display = 'inline-block';
+            } else {
+                modalProfileImg.src = '';
+                modalProfileImg.style.display = 'none';
+            }
+            
             modalAuthorName.textContent = data.name;
             modalAuthorTitle.textContent = data.title;
-            modalTestimonialText.textContent = `"${data.text}"`;
+            modalTestimonialText.textContent = data.text;
+            
+            // Set engagement stats based on testimonial
+            const engagementStats = {
+                lucy: "❤️ 47 • 💬 8 comments",
+                dayana: "🔥 92 • 💬 15 comments • 3 reposts",
+                gabriela: "💡 156 • 💬 23 comments • 12 reposts",
+                sarah: "🚀 73 • 💬 12 comments • 5 reposts",
+                mike: "🎉 234 • 💬 31 comments • 18 reposts"
+            };
+            
+            modalEngagementStats.innerHTML = `<span>${engagementStats[testimonialKey] || "💬 Comments • 🔄 Reposts • ❤️ Reactions"}</span>`;
             
             modal.classList.add('show');
             document.body.style.overflow = 'hidden';
