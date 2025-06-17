@@ -2450,8 +2450,10 @@ p {
     margin: 0;
 }
 
-/* Hide mobile buttons on desktop */
-.hero-mobile-buttons {
+/* Hide mobile buttons, mobile video, and mobile content on desktop */
+.hero-mobile-buttons,
+.hero-video-background-mobile,
+.hero-mobile-content {
     display: none;
 }
 
@@ -2479,36 +2481,80 @@ p {
         display: none;
     }
     
-    /* Create a simple mobile hero layout */
-    .hero-split::after {
-        content: '';
+    /* Hide desktop video background on mobile */
+    .hero-video-background {
+        display: none;
+    }
+    
+    /* Show mobile video background */
+    .hero-video-background-mobile {
         position: absolute;
         top: 0;
         left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(255, 65, 67, 0.8) 100%);
-        z-index: 4;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        display: block;
     }
     
-    /* Mobile hero content */
-    .hero-split::before {
-        content: 'Ready to design the career you want?\A\A Are you:';
+    .hero-video-mobile {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+    
+    .hero-video-overlay-mobile {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(255, 65, 67, 0.7) 100%);
+        z-index: 2;
+    }
+    
+    /* Show mobile content */
+    .hero-mobile-content {
         position: absolute;
         top: 30%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 5;
-        color: white;
         text-align: center;
-        font-size: clamp(1.2rem, 4vw, 1.8rem);
-        font-weight: 700;
-        line-height: 1.4;
-        white-space: pre-line;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-        padding: 0 var(--space-md);
         width: 95%;
-        max-width: 400px;
+        max-width: 450px;
+        display: block;
+    }
+    
+    /* Mobile hero headline */
+    .hero-mobile-headline {
+        color: #fff;
+        font-family: 'Manrope', sans-serif;
+        font-size: clamp(2.4rem, 8vw, 2.625rem);
+        font-weight: 700;
+        line-height: 1;
+        margin: 0 0 var(--space-sm) 0;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        opacity: 1;
+        transform-style: preserve-3d;
+    }
+    
+    /* Mobile hero subheader */
+    .hero-mobile-subheader {
+        color: #fff;
+        font-family: 'Manrope', sans-serif;
+        font-size: clamp(1.2rem, 4vw, 1.5rem);
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: -0.05rem;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        margin: 0;
+        padding: 0 var(--space-md);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        opacity: 0.9;
     }
     
     /* Mobile CTA buttons */
@@ -2523,7 +2569,7 @@ p {
         gap: var(--space-md);
         width: 85%;
         max-width: 280px;
-        margin-top: 2rem;
+        margin-top: 3rem;
     }
     
     .hero-mobile-btn {
