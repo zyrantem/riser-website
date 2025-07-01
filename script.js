@@ -388,8 +388,65 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(element);
     });
 
-    // Form handling (if needed)
-    const forms = document.querySelectorAll('form');
+    // Mailchimp form handling
+    const mailchimpForm = document.getElementById('mc-embedded-subscribe-form-main');
+    if (mailchimpForm) {
+        mailchimpForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('mce-EMAIL-main').value;
+            const button = document.getElementById('mc-embedded-subscribe-main');
+            const errorResponse = document.getElementById('mce-error-response-main');
+            const successResponse = document.getElementById('mce-success-response-main');
+            
+            // Hide any existing messages
+            errorResponse.style.display = 'none';
+            successResponse.style.display = 'none';
+            
+            // Show loading state
+            const originalButtonText = button.value;
+            button.value = 'Joining...';
+            button.disabled = true;
+            
+            // Create JSONP request to Mailchimp
+            const script = document.createElement('script');
+            const callbackName = 'mailchimpCallback_' + Date.now();
+            
+            // Define the callback function
+            window[callbackName] = function(data) {
+                // Clean up
+                document.head.removeChild(script);
+                delete window[callbackName];
+                
+                // Reset button
+                button.value = originalButtonText;
+                button.disabled = false;
+                
+                if (data.result === 'success') {
+                    successResponse.innerHTML = data.msg || 'Thank you for subscribing! Check your email to confirm.';
+                    successResponse.style.display = 'block';
+                    mailchimpForm.reset();
+                } else {
+                    let errorMsg = data.msg || 'An error occurred. Please try again.';
+                    // Clean up Mailchimp's error message formatting
+                    errorMsg = errorMsg.replace(/0 - /, '').replace(/1 - /, '').replace(/2 - /, '');
+                    errorResponse.innerHTML = errorMsg;
+                    errorResponse.style.display = 'block';
+                }
+            };
+            
+            // Build the URL with parameters
+            const url = mailchimpForm.action.replace('/post?', '/post-json?') + 
+                       '&EMAIL=' + encodeURIComponent(email) + 
+                       '&c=' + callbackName;
+            
+            script.src = url;
+            document.head.appendChild(script);
+        });
+    }
+
+    // Form handling for other forms (if needed)
+    const forms = document.querySelectorAll('form:not(#mc-embedded-subscribe-form-main)');
     forms.forEach(form => {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -398,17 +455,27 @@ document.addEventListener('DOMContentLoaded', function() {
             const formData = new FormData(this);
             
             // Example: Show success message
-            const button = this.querySelector('button[type="submit"]');
-            const originalText = button.textContent;
-            
-            button.textContent = 'Success!';
-            button.style.backgroundColor = '#10b981';
-            
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.style.backgroundColor = '';
-                this.reset();
-            }, 2000);
+            const button = this.querySelector('button[type="submit"]') || this.querySelector('input[type="submit"]');
+            if (button) {
+                const originalText = button.textContent || button.value;
+                
+                if (button.tagName.toLowerCase() === 'input') {
+                    button.value = 'Success!';
+                } else {
+                    button.textContent = 'Success!';
+                }
+                button.style.backgroundColor = '#10b981';
+                
+                setTimeout(() => {
+                    if (button.tagName.toLowerCase() === 'input') {
+                        button.value = originalText;
+                    } else {
+                        button.textContent = originalText;
+                    }
+                    button.style.backgroundColor = '';
+                    this.reset();
+                }, 2000);
+            }
         });
     });
 

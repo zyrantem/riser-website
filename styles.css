@@ -1943,6 +1943,7 @@ p {
     grid-template-columns: 2fr 1fr;
     gap: var(--space-xl);
     margin-bottom: var(--space-xl);
+    align-items: start;
 }
 
 .footer-logo {
@@ -2049,6 +2050,160 @@ p {
     fill: var(--text-primary);
 }
 
+/* Newsletter Section Styles */
+.newsletter-section {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-top: 1px solid var(--gray-200);
+}
+
+.newsletter-content {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.newsletter-header {
+    margin-bottom: var(--space-xl);
+}
+
+.newsletter-header .section-tag {
+    background: linear-gradient(135deg, #FF4143 0%, #FD8F4B 100%);
+    color: white;
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    display: inline-block;
+    margin-bottom: var(--space-md);
+}
+
+.newsletter-header .section-title {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    line-height: 1.2;
+}
+
+.newsletter-header .section-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.newsletter-signup {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Override Mailchimp default styles for main form */
+#mc_embed_signup_main {
+    background: transparent !important;
+    clear: none !important;
+    font: inherit !important;
+    width: 100% !important;
+}
+
+.newsletter-main-form {
+    width: 100%;
+}
+
+.newsletter-input-group {
+    display: flex;
+    gap: var(--space-md);
+    align-items: flex-start;
+    width: 100%;
+}
+
+.mc-field-group-main {
+    flex: 1;
+    margin: 0 !important;
+}
+
+.newsletter-main-input {
+    width: 100% !important;
+    padding: 16px 20px !important;
+    border: 2px solid var(--gray-300) !important;
+    border-radius: var(--radius-lg) !important;
+    background-color: var(--white) !important;
+    color: var(--text-primary) !important;
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 1rem !important;
+    line-height: 1.2 !important;
+    transition: all 0.3s ease !important;
+    box-sizing: border-box !important;
+    height: 56px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+.newsletter-main-input:focus {
+    outline: none !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 4px rgba(255, 65, 67, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.newsletter-main-input::placeholder {
+    color: var(--text-light) !important;
+    opacity: 0.8 !important;
+}
+
+.newsletter-main-button {
+    padding: 16px 32px !important;
+    background: linear-gradient(135deg, #FF4143 0%, #FD8F4B 100%) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: var(--radius-lg) !important;
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-sizing: border-box !important;
+    height: 56px !important;
+    white-space: nowrap !important;
+    box-shadow: 0 4px 12px rgba(255, 65, 67, 0.25) !important;
+    min-width: 120px !important;
+}
+
+.newsletter-main-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(255, 65, 67, 0.35) !important;
+}
+
+.newsletter-main-button:active {
+    transform: translateY(0) !important;
+}
+
+/* Newsletter form response messages for main form */
+#mce-responses-main {
+    margin-top: var(--space-md) !important;
+    text-align: center !important;
+}
+
+#mce-responses-main .response {
+    font-size: 0.875rem !important;
+    padding: var(--space-md) var(--space-lg) !important;
+    border-radius: var(--radius-md) !important;
+    margin: var(--space-md) auto !important;
+    max-width: 400px !important;
+    font-weight: 500 !important;
+}
+
+#mce-error-response-main {
+    background-color: #fef2f2 !important;
+    color: #dc2626 !important;
+    border: 1px solid #fecaca !important;
+}
+
+#mce-success-response-main {
+    background-color: #f0fdf4 !important;
+    color: #166534 !important;
+    border: 1px solid #bbf7d0 !important;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .hero-content,
@@ -2064,6 +2219,12 @@ p {
     
     .section-title {
         font-size: 2rem;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+        text-align: center;
     }
 }
 
@@ -2194,6 +2355,16 @@ p {
     .footer-content {
         grid-template-columns: 1fr;
         text-align: center;
+    }
+    
+    .newsletter-input-group {
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+    
+    .newsletter-main-input,
+    .newsletter-main-button {
+        width: 100% !important;
     }
     
     .footer-app-links {
